@@ -16,7 +16,7 @@ $ docker compose up
 Dans un autre terminal, lancer l'application
 
 ```shell
-mvnw spring-boot:run
+$ mvnw spring-boot:run
 ```
 
 Ouvrir ensuite l'URL `http://localhost:8080`
