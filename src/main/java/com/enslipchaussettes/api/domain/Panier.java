@@ -8,7 +8,6 @@ import java.util.UUID;
 
 public class Panier {
     public  final UUID uuid;
-    private List<String> listReference = new ArrayList<>();
     private List<Article> articles = new ArrayList<>();
 
     public Panier(){
@@ -16,19 +15,15 @@ public class Panier {
    }
 
     public void addReference(String reference) {
-       this.listReference.add(reference);
+       this.addQuantiteParReference(1, reference);
     }
 
     public List<String> showPanier() {
-        return listReference;
+        return articles.stream().map(a -> a.getReference()).toList();
     }
 
     public void deleteRef(String ref) {
-        this.listReference = this.listReference.stream().filter(l-> !l.equals(ref)).toList();
-    }
-
-    public int recupererQuantite(String reference) {
-        return 0;
+        this.articles = this.articles.stream().filter(a -> !a.getReference().equals(ref)).toList();
     }
 
     public void addQuantiteParReference(int quantite, String reference) {
@@ -40,8 +35,6 @@ public class Panier {
             articles.add(new Article(reference, quantite));
         }
     }
-
-
 
     public List<Article> showPanierAvecQuantite() {
         return articles.stream().map(article -> new Article(article.getReference(), article.getQuantite())).toList();
