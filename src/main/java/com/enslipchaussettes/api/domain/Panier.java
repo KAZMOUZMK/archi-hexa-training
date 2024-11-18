@@ -49,7 +49,11 @@ public class Panier {
 
     public void incrementerQuantite(String reference) {
         Optional<Article> articleOptional = recupererArticle(reference);
-        articleOptional.get().incrementeQuantite();
+        if(articleOptional.isPresent()) {
+            articleOptional.get().incrementeQuantite();
+        } else {
+            articles.add(new Article(reference, 1));
+        }
 
     }
 
@@ -60,6 +64,11 @@ public class Panier {
 
     public void decrementerQuantite(String reference) {
         Optional<Article> articleOptional = recupererArticle(reference);
-        articleOptional.get().decrementeQuantite();
+        if(articleOptional.isPresent()){
+            articleOptional.get().decrementeQuantite();
+            if(articleOptional.get().getQuantite() == 0){
+                articles = articles.stream().filter(a-> !a.getReference().equals(reference)).toList();
+            }
+        }
     }
 }
