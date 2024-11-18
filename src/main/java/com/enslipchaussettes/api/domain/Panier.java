@@ -18,6 +18,7 @@ public class Panier {
        this.addQuantiteParReference(1, reference);
     }
 
+    @Deprecated
     public List<String> showPanier() {
         return articles.stream().map(a -> a.getReference()).toList();
     }
@@ -45,9 +46,8 @@ public class Panier {
         if(articleOptional.isPresent()) {
             articleOptional.get().incrementeQuantite();
         } else {
-            articles.add(new Article(reference, 1));
+            addQuantiteParReference(1, reference);
         }
-
     }
 
     private Optional<Article> recupererArticle(String reference) {
@@ -60,7 +60,7 @@ public class Panier {
         if(articleOptional.isPresent()){
             articleOptional.get().decrementeQuantite();
             if(articleOptional.get().getQuantite() == 0){
-                articles = articles.stream().filter(a-> !a.getReference().equals(reference)).toList();
+                deleteRef(reference);
             }
         }
     }
