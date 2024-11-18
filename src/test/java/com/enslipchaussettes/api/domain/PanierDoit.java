@@ -99,4 +99,29 @@ public class PanierDoit {
         assertEquals(5, articles.getFirst().getQuantite());
     }
 
+    @Test
+    public void increment_ref_not_in_panier(){
+        String reference = "ref1";
+        panier.incrementerQuantite(reference);
+
+        assertEquals(1, panier.showPanierAvecQuantite().getFirst().getQuantite());
+    }
+
+    @Test
+    public void deincrement_ref_in_panier(){
+        String reference = "ref1";
+        panier.addQuantiteParReference(1, reference);
+        panier.decrementerQuantite(reference);
+
+        assertEquals(panier.showPanierAvecQuantite().size(), 0);
+    }
+
+    @Test
+    public void deincrement_une_ref_inexistance_panier(){
+        String reference = "ref1";
+        panier.decrementerQuantite(reference);
+
+        assertEquals(panier.showPanierAvecQuantite().size(), 0);
+    }
+
 }
