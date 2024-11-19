@@ -9,6 +9,10 @@ public class Panier {
     public  final UUID uuid;
     private List<Article> articles = new ArrayList<>();
 
+    public Panier(UUID uuid) {
+        this.uuid = uuid;
+    }
+
     public Panier(){
        this.uuid =  UUID.randomUUID();
    }
