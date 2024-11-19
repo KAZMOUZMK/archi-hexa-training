@@ -12,14 +12,20 @@ public class ArticleDao {
     public ArticleDao() {
     }
 
-    public ArticleDao(String reference, int quantite) {
+    public ArticleDao(String reference, int quantite, PanierDao panierDao) {
         this.reference = reference;
         this.quantite = quantite;
+        this.panier = panierDao;
     }
+
 
     @Id
     @GeneratedValue
     private long id;
+
+    @ManyToOne
+    @JoinColumn(name="panier_id", nullable=false)
+    private PanierDao panier;
 
     public long getId() {
         return id;
@@ -58,8 +64,6 @@ public class ArticleDao {
         this.panier = panier;
     }
 
-    @ManyToOne
-    @JoinColumn(name="panier_id", nullable=false)
-    private PanierDao panier;
+
 
 }
