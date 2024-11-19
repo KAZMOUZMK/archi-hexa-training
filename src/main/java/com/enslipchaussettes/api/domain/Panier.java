@@ -96,4 +96,26 @@ public class Panier {
     public void deleteProduit(Produit produit) {
         this.articles = this.articles.stream().filter(a -> !a.estProduit(produit)).toList();
     }
+
+    public void incrementerQuantite(Produit produit) {
+        int indexArticle = recupererIndexArticle(produit.getReference());
+        if(indexArticle > 0) {
+            articles.set(indexArticle, articles.get(indexArticle).incrementeQuantite2());
+        } else {
+            addQuantiteParProduit(1, produit);
+        }
+    }
+
+    public void decrementerQuantite(Produit produit) {
+        int indexArticle = recupererIndexArticle(produit.getReference());
+
+        if(indexArticle > -1){
+            var newArticle = articles.get(indexArticle).decrementeQuantite2();
+            if (!newArticle.estZero()) {
+                articles.set(indexArticle, newArticle);
+            } else {
+                deleteProduit(produit);
+            }
+        }
+    }
 }
