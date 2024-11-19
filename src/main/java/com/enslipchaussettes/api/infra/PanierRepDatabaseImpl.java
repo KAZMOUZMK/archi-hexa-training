@@ -2,6 +2,7 @@ package com.enslipchaussettes.api.infra;
 
 import com.enslipchaussettes.api.database.DatabaseSpringArticleRepository;
 import com.enslipchaussettes.api.database.DatabaseSpringPanierRepository;
+import com.enslipchaussettes.api.domain.Catalogue;
 import com.enslipchaussettes.api.domain.Panier;
 import com.enslipchaussettes.api.domain.PanierRep;
 import com.enslipchaussettes.api.domain.Produit;
@@ -14,16 +15,36 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class PanierRepDatabaseImpl implements PanierRep {
+
+    private Catalogue catalogue;
+
+    private DatabaseSpringArticleRepository databaseSpringArticleRepository;
+
     @Autowired
     DatabaseSpringPanierRepository databaseSpringPanierRepository;
 
+    public PanierRepDatabaseImpl(DatabaseSpringPanierRepository repositorypanier, DatabaseSpringArticleRepository repositoryArticle, Catalogue catalogue) {
+        this.databaseSpringPanierRepository = repositorypanier;
+        this.databaseSpringArticleRepository = repositoryArticle;
+        this.catalogue = catalogue;
+    }
+
     @Override
     public void savePanier(Panier panier) {
-        PanierDao panierDao = new PanierDao();
-        panierDao.setUuid(panier.uuid);
-        List<ArticleDao> listeArticleDao= panier.showPanierAvecQuantite().stream().map(a-> new ArticleDao(a.getReference(), a.getQuantite())).toList();
+        Optional<PanierDao> panierDaoOptional = databaseSpringPanierRepository.findById(panier.uuid);
+        PanierDao panierDao;
+
+        if(panierDaoOptional.isEmpty()) {
+            panierDao = new PanierDao();
+            panierDao.setUuid(panier.uuid);
+        } else {
+             panierDao = panierDaoOptional.get();
+            databaseSpringArticleRepository.deleteAll(panierDao.getArticles());
+        }
+        List<ArticleDao> listeArticleDao = panier.showPanierAvecQuantite().stream().map(a -> new ArticleDao(a.getReference(), a.getQuantite(), panierDao)).toList();
         panierDao.setArticles(listeArticleDao);
         databaseSpringPanierRepository.save(panierDao);
+        databaseSpringArticleRepository.saveAll(listeArticleDao);
     }
 
     @Override
@@ -32,7 +53,7 @@ public class PanierRepDatabaseImpl implements PanierRep {
         PanierDao panierDao = optinalPanierDao.get();
         Panier panier= new Panier(panierDao.getUuid());
         for(ArticleDao articleDao: panierDao.getArticles()){
-            Produit produit = new Produit( articleDao.getReference(), 0);
+            Produit produit = catalogue.getProduit(articleDao.getReference());
             panier.addQuantiteParProduit(articleDao.getQuantite(), produit);
         }
         return panier;
