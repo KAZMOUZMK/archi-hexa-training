@@ -6,38 +6,47 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class PanierPortDoit {
     @Test
     public void sauver_un_panier_initialise() {
-        PanierRepDouble rep = new PanierRepDouble();
-        PanierRep rep2 = mock(PanierRep.class);
-        PanierPort port  = new PanierPort(rep2);
+        Catalogue catalogue = mock(Catalogue.class);
+        PanierRep panierRep = mock(PanierRep.class);
+        PanierPort utilisationPanier  = new PanierPort(panierRep, catalogue);
 
-        UUID panierId = port.initPanier();
-        verify(rep2).savePanier(argThat(panier -> panier.uuid.equals(panierId)));
-        // rep.savePanierAEteApple();
+        UUID panierId = utilisationPanier.initPanier();
+        verify(panierRep).savePanier(argThat(panier -> panier.uuid.equals(panierId)));
     }
 
-    class PanierRepDouble implements PanierRep {
+    @Test
+    public void ajouter_une_reference() {
+        Catalogue catalogue = mock(Catalogue.class);
+        PanierRep panierRep = mock(PanierRep.class);
 
-        private boolean savePanierAppele = false;
+        Panier panier = new Panier();
+        when(panierRep.getPanier(any())).thenReturn(panier);
+        Produit produit = new Produit("slip-noir", 10);
+        when(catalogue.getProduit("slip-noir")).thenReturn(produit);
+        PanierPort utilisationPanier  = new PanierPort(panierRep, catalogue);
+        utilisationPanier.ajoutReference(panier.uuid, "slip-noir");
+        verify(panierRep).savePanier(argThat(p -> p.uuid.equals(panier.uuid)));
+        verify(catalogue).getProduit("slip-noir");
+    }
 
-        @Override
-        public void savePanier(Panier panier) {
-            savePanierAppele = true;
+    @Test
+    public void supprimer_une_reference() {
+        Catalogue catalogue = mock(Catalogue.class);
+        PanierRep panierRep = mock(PanierRep.class);
 
-        }
-
-        @Override
-        public Panier getPanier(UUID uuid) {
-            return null;
-        }
-
-        public void savePanierAEteApple() {
-            assertTrue(savePanierAppele);
-        }
+        Panier panier = new Panier();
+        when(panierRep.getPanier(any())).thenReturn(panier);
+        Produit produit = new Produit("slip-noir", 10);
+        when(catalogue.getProduit("slip-noir")).thenReturn(produit);
+        PanierPort utilisationPanier  = new PanierPort(panierRep, catalogue);
+        utilisationPanier.ajoutReference(panier.uuid, "slip-noir");
+        utilisationPanier.deleteReference(panier.uuid, "slip-noir");
+        verify(panierRep, times(2)).savePanier(argThat(p -> p.uuid.equals(panier.uuid)));
+        verify(catalogue, times(2)).getProduit("slip-noir");
     }
 }

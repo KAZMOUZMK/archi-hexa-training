@@ -4,7 +4,14 @@ import java.util.List;
 import java.util.UUID;
 
 public class PanierPort implements UtilisationPanier {
-    PanierRep panierRep;
+    private  Catalogue catalogue = null;
+    private final PanierRep panierRep;
+
+    public PanierPort(PanierRep panierRep, Catalogue catalogue) {
+        this.panierRep = panierRep;
+        this.catalogue = catalogue;
+    }
+
     @Override
     public UUID initPanier(){
         Panier panier = new Panier();
@@ -12,15 +19,11 @@ public class PanierPort implements UtilisationPanier {
         return panier.uuid;
     }
 
-    public PanierPort(PanierRep panierRep){
-        this.panierRep = panierRep;
-    }
-
-
     @Override
     public void ajoutReference(UUID uuid, String reference){
         Panier  panier = panierRep.getPanier(uuid);
-        panier.addReference(reference);
+        var produit = catalogue.getProduit(reference);
+        panier.addProduit(produit);
         panierRep.savePanier(panier);
     }
 
@@ -33,7 +36,8 @@ public class PanierPort implements UtilisationPanier {
     @Override
     public void deleteReference(UUID uuid, String ref){
         Panier  panier = panierRep.getPanier(uuid);
-        panier.deleteRef(ref);
+        var produit = catalogue.getProduit(ref);
+        panier.deleteProduit(produit);
         panierRep.savePanier(panier);
     }
 

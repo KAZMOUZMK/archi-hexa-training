@@ -1,11 +1,9 @@
 package com.enslipchaussettes.api;
 
-import com.enslipchaussettes.api.domain.PanierRep;
-import com.enslipchaussettes.api.domain.PanierPort;
-import com.enslipchaussettes.api.domain.UtilisationPanier;
+import com.enslipchaussettes.api.domain.*;
+import com.enslipchaussettes.api.infra.CatalogueEnMemoire;
 import com.enslipchaussettes.api.infra.ConsolePanierPresenter;
 import com.enslipchaussettes.api.infra.PanierMemoire;
-import com.enslipchaussettes.api.domain.PanierPresenter;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,20 +12,22 @@ public class EConsole {
 
     public static void main(String[] args){
         PanierRep panierRep = new PanierMemoire();
-        UtilisationPanier utilisationPanier = new PanierPort(panierRep);
+        Catalogue catalogue = new CatalogueEnMemoire();
+
+        UtilisationPanier utilisationPanier = new PanierPort(panierRep, catalogue);
         UUID  uuid = utilisationPanier.initPanier();
         System.out.println(uuid);
 
-        utilisationPanier.ajoutReference(uuid,"test");
+        utilisationPanier.ajoutReference(uuid,"slip-noir");
         PanierPresenter panierPresenter = new ConsolePanierPresenter();
         utilisationPanier.showReference(uuid, panierPresenter);
         panierPresenter.afficher();
 
-        utilisationPanier.ajoutReference(uuid,"test2");
+        utilisationPanier.ajoutReference(uuid,"slip-blanc");
         utilisationPanier.showReference(uuid, panierPresenter);
         panierPresenter.afficher();
 
-        utilisationPanier.deleteReference(uuid,"test2");
+        utilisationPanier.deleteReference(uuid,"slip-noir");
         utilisationPanier.showReference(uuid, panierPresenter);
         panierPresenter.afficher();
     }

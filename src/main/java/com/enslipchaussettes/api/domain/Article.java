@@ -8,12 +8,6 @@ public class Article {
 
     private Produit produit;
 
-    public Article(String reference, int quantite) {
-        this.reference = reference;
-        this.quantite = quantite;
-        this.produit = null;
-    }
-
     public Article(Produit produit, int quantite) {
         this.reference = null;
         this.quantite = quantite;
@@ -31,16 +25,16 @@ public class Article {
         return quantite;
     }
 
-    public Article ajoutQuantite2(int quantite) {
-        return new Article(reference, this.quantite + quantite);
+    public Article ajoutQuantite(int quantite) {
+        return new Article(produit, this.quantite + quantite);
     }
 
-    public Article incrementeQuantite2() {
-        return new Article(reference, this.quantite + 1);
+    public Article incrementeQuantite() {
+        return new Article(produit, this.quantite + 1);
     }
 
-    public Article decrementeQuantite2() {
-        return new Article(reference, Math.max(this.quantite - 1, 0));
+    public Article decrementeQuantite() {
+        return new Article(produit, Math.max(this.quantite - 1, 0));
     }
 
     public boolean estZero() {

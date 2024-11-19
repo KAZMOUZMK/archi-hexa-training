@@ -19,7 +19,8 @@ public class PanierSteps {
 
     @When("on ajoute une reference $reference")
     public void ajoutReference(String reference) {
-        panier.addReference(reference);
+
+        panier.addProduit(new Produit(reference, 10));
     }
 
     @Then("la première référence du panier doit être $reference")
