@@ -1,15 +1,14 @@
 package com.enslipchaussettes.api.infra;
 
-import com.enslipchaussettes.api.container.TestPostgreSQLContainer;
 import com.enslipchaussettes.api.database.DatabaseSpringArticleRepository;
 import com.enslipchaussettes.api.database.DatabaseSpringPanierRepository;
 import com.enslipchaussettes.api.domain.*;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -29,8 +28,7 @@ public class PanierRepDatabaseImplTest {
 
     @Container
     @ServiceConnection
-    static TestPostgreSQLContainer postgres =
-            TestPostgreSQLContainer.getInstance();
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
 
     private PanierRep panierRep;
 

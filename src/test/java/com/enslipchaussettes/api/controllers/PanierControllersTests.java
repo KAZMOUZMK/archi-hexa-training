@@ -1,6 +1,5 @@
 package com.enslipchaussettes.api.controllers;
 
-import com.enslipchaussettes.api.container.TestPostgreSQLContainer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -30,7 +28,8 @@ public class PanierControllersTests {
 
     @Container
     @ServiceConnection
-    static PostgreSQLContainer postgres = TestPostgreSQLContainer.getInstance();
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
+    // static PostgreSQLContainer postgres = TestPostgreSQLContainer.getInstance();
 
 
     @Test

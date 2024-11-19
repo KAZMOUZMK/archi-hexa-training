@@ -1,6 +1,5 @@
 package com.enslipchaussettes.api.database;
 
-import com.enslipchaussettes.api.container.TestPostgreSQLContainer;
 import com.enslipchaussettes.api.infra.dao.ArticleDao;
 import com.enslipchaussettes.api.infra.dao.PanierDao;
 import org.junit.jupiter.api.Assertions;
@@ -8,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -27,8 +27,7 @@ class SpringPanierWithTestContainer {
     
     @Container
     @ServiceConnection
-    static TestPostgreSQLContainer postgres =
-            TestPostgreSQLContainer.getInstance();
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
 
     @Test
     void pouvoir_recuperer_un_panier() {

@@ -1,6 +1,5 @@
 package com.enslipchaussettes.api.e2e;
 
-import com.enslipchaussettes.api.container.TestPostgreSQLContainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,7 +24,8 @@ public class AddressEndpointTest {
 
     @Container
     @ServiceConnection
-    static PostgreSQLContainer postgres = TestPostgreSQLContainer.getInstance();
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
+
 
     @Test
     public void peut_faire_une_recherche_d_adresse() throws Exception {

@@ -10,9 +10,7 @@ import com.enslipchaussettes.api.infra.dao.ArticleDao;
 import com.enslipchaussettes.api.infra.dao.PanierDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class PanierRepDatabaseImpl implements PanierRep {
 
@@ -38,11 +36,13 @@ public class PanierRepDatabaseImpl implements PanierRep {
             panierDao = new PanierDao();
             panierDao.setUuid(panier.uuid);
         } else {
-             panierDao = panierDaoOptional.get();
+            panierDao = panierDaoOptional.get();
+            // On supprime les articles existants
             databaseSpringArticleRepository.deleteAll(panierDao.getArticles());
+            panierDao.setArticles(new LinkedList<ArticleDao>());
         }
         List<ArticleDao> listeArticleDao = panier.showPanierAvecQuantite().stream().map(a -> new ArticleDao(a.getReference(), a.getQuantite(), panierDao)).toList();
-        //panierDao.setArticles(listeArticleDao);
+
         databaseSpringPanierRepository.save(panierDao);
         databaseSpringArticleRepository.saveAll(listeArticleDao);
     }
