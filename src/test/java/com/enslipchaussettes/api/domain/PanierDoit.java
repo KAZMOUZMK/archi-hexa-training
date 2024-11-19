@@ -58,17 +58,6 @@ public class PanierDoit {
 
     }
 
-    @Test
-    public void pouvoir_afficher_le_contenu_du_panier() {
-        panier.addReference("ref1");
-        panier.addReference("ref2");
-
-        var contenu = panier.showPanier();
-
-        assertTrue(contenu.contains("ref1"));
-        assertTrue(contenu.contains("ref2"));
-
-    }
 
     @Test
     public void pouvoir_ajouter_une_quantite_arbitraire_de_reference() {
@@ -76,6 +65,17 @@ public class PanierDoit {
         String reference = "ref2";
 
         panier.addQuantiteParReference(quantite, reference);
+        List<Article> articles = panier.showPanierAvecQuantite();
+
+        assertEquals("ref2", articles.getFirst().getReference());
+        assertEquals(3, articles.getFirst().getQuantite());
+    }
+
+    @Test
+    public void pouvoir_ajouter_une_quantite_arbitraire_de_produit() {
+        int quantite = 3;
+        Produit produit = new Produit("ref2",0);
+        panier.addQuantiteParProduit(quantite, produit);
         List<Article> articles = panier.showPanierAvecQuantite();
 
         assertEquals("ref2", articles.getFirst().getReference());
@@ -97,11 +97,35 @@ public class PanierDoit {
     }
 
     @Test
+    public void pouvoir_incrementer_quantite_dun_produit() {
+        Produit produit = new Produit("ref2",0);
+        panier.addQuantiteParProduit(2, produit);
+        panier.incrementerQuantite(produit);
+
+        List<Article> articles = panier.showPanierAvecQuantite();
+
+        assertEquals(3, articles.getFirst().getQuantite());
+
+
+    }
+
+    @Test
     public void pouvoir_decrementer_quantite_dune_reference() {
         String reference = "ref1";
 
         panier.addQuantiteParReference(2, reference);
         panier.decrementerQuantite(reference);
+
+        List<Article> articles = panier.showPanierAvecQuantite();
+
+        assertEquals(1, articles.getFirst().getQuantite());
+    }
+
+    @Test
+    public void pouvoir_decrementer_quantite_dun_produit() {
+        Produit produit = new Produit("ref1",0);
+        panier.addQuantiteParProduit(2, produit);
+        panier.decrementerQuantite(produit);
 
         List<Article> articles = panier.showPanierAvecQuantite();
 
@@ -121,9 +145,29 @@ public class PanierDoit {
     }
 
     @Test
+    public void pouvoir_aggréger_les_quantites_produits() {
+        Produit produit = new Produit("ref1",0);
+
+        panier.addQuantiteParProduit(2, produit);
+        panier.addQuantiteParProduit(3, produit);
+
+        List<Article> articles = panier.showPanierAvecQuantite();
+
+        assertEquals(5, articles.getFirst().getQuantite());
+    }
+
+    @Test
     public void increment_ref_not_in_panier(){
         String reference = "ref1";
         panier.incrementerQuantite(reference);
+
+        assertEquals(1, panier.showPanierAvecQuantite().getFirst().getQuantite());
+    }
+
+    @Test
+    public void increment_produit_not_in_panier(){
+        Produit produit = new Produit("ref1",0);
+        panier.incrementerQuantite(produit);
 
         assertEquals(1, panier.showPanierAvecQuantite().getFirst().getQuantite());
     }
@@ -138,9 +182,26 @@ public class PanierDoit {
     }
 
     @Test
+    public void deincrement_produit_in_panier(){
+        Produit produit = new Produit("ref1",0);
+        panier.addQuantiteParProduit(1, produit);
+        panier.decrementerQuantite(produit);
+
+        assertEquals(panier.showPanierAvecQuantite().size(), 0);
+    }
+
+    @Test
     public void deincrement_une_ref_inexistance_panier(){
         String reference = "ref1";
         panier.decrementerQuantite(reference);
+
+        assertEquals(panier.showPanierAvecQuantite().size(), 0);
+    }
+
+    @Test
+    public void deincrement_une_produit_inexistance_panier(){
+        Produit produit = new Produit("ref1",0);
+        panier.decrementerQuantite(produit);
 
         assertEquals(panier.showPanierAvecQuantite().size(), 0);
     }
