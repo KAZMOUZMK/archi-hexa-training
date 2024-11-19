@@ -78,4 +78,22 @@ public class Panier {
             }
         }
     }
+
+    public void addProduit(Produit produit) {
+        this.addQuantiteParProduit(1, produit);
+    }
+
+    public void addQuantiteParProduit(int quantite, Produit produit) {
+        int indexArticle = recupererIndexArticle(produit.getReference());
+        if (indexArticle > -1) {
+            articles.set(indexArticle, articles.get(indexArticle).ajoutQuantite2(quantite));
+        } else {
+            articles.add(new Article(produit, quantite));
+        }
+    }
+
+
+    public void deleteProduit(Produit produit) {
+        this.articles = this.articles.stream().filter(a -> !a.estProduit(produit)).toList();
+    }
 }

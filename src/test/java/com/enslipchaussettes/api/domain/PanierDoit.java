@@ -27,10 +27,31 @@ public class PanierDoit {
     }
 
     @Test
+    public void pouvoir_ajouter_un_produit() {
+        panier.addProduit(new Produit("ref1", 20));
+        var actualContenu = panier.showPanier();
+
+        assertNotNull(panier.uuid);
+        assertEquals("ref1", actualContenu.getFirst());
+    }
+
+    @Test
     public void pouvoir_supprimer_une_reference() {
         panier.addReference("ref1");
 
         panier.deleteRef("ref1");
+        var nouveauContenu = panier.showPanier();
+
+        assertEquals(0, nouveauContenu.size());
+
+    }
+
+    @Test
+    public void pouvoir_supprimer_un_produit() {
+        Produit produit = new Produit("ref1", 10);
+        panier.addProduit(produit);
+
+        panier.deleteProduit(produit);
         var nouveauContenu = panier.showPanier();
 
         assertEquals(0, nouveauContenu.size());

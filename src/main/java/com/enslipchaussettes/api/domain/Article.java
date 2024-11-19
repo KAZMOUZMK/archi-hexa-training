@@ -6,13 +6,25 @@ public class Article {
 
     private final int quantite;
 
+    private Produit produit;
+
     public Article(String reference, int quantite) {
         this.reference = reference;
         this.quantite = quantite;
+        this.produit = null;
+    }
+
+    public Article(Produit produit, int quantite) {
+        this.reference = null;
+        this.quantite = quantite;
+        this.produit= produit;
     }
 
     public String getReference() {
-        return reference;
+        if (produit == null) {
+            return reference;
+        }
+        return produit.getReference();
     }
 
     public int getQuantite() {
@@ -33,5 +45,9 @@ public class Article {
 
     public boolean estZero() {
         return quantite == 0;
+    }
+
+    public boolean estProduit(Produit produit) {
+        return produit.equals(this.produit);
     }
 }
