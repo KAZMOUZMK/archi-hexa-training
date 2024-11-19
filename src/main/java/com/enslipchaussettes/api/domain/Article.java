@@ -2,15 +2,14 @@ package com.enslipchaussettes.api.domain;
 
 public class Article {
 
-    private String reference;
+    private final String reference;
 
-    private int quantite;
+    private final int quantite;
 
     public Article(String reference, int quantite) {
         this.reference = reference;
         this.quantite = quantite;
     }
-
 
     public String getReference() {
         return reference;
@@ -20,15 +19,19 @@ public class Article {
         return quantite;
     }
 
-    public void incrementeQuantite() {
-        this.quantite += 1;
+    public Article ajoutQuantite2(int quantite) {
+        return new Article(reference, this.quantite + quantite);
     }
 
-    public void decrementeQuantite() {
-        this.quantite -= 1;
+    public Article incrementeQuantite2() {
+        return new Article(reference, this.quantite + 1);
     }
 
-    public void ajoutQuantite(int quantite) {
-        this.quantite += quantite;
+    public Article decrementeQuantite2() {
+        return new Article(reference, Math.max(this.quantite - 1, 0));
+    }
+
+    public boolean estZero() {
+        return quantite == 0;
     }
 }

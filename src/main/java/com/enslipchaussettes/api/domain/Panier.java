@@ -28,10 +28,9 @@ public class Panier {
     }
 
     public void addQuantiteParReference(int quantite, String reference) {
-        Optional<Article> articleOptionl = recupererArticle(reference);
-
-        if(articleOptionl.isPresent()) {
-            articleOptionl.get().ajoutQuantite(quantite);
+        int indexArticle = recupererIndexArticle(reference);
+        if (indexArticle > -1) {
+            articles.set(indexArticle, articles.get(indexArticle).ajoutQuantite2(quantite));
         } else {
             articles.add(new Article(reference, quantite));
         }
@@ -41,10 +40,22 @@ public class Panier {
         return articles.stream().map(article -> new Article(article.getReference(), article.getQuantite())).toList();
     }
 
+    private int recupererIndexArticle(String reference) {
+        int i = -1;
+        for (Article a :this.articles) {
+            i++;
+            if (a.getReference().equals(reference)) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
     public void incrementerQuantite(String reference) {
-        Optional<Article> articleOptional = recupererArticle(reference);
-        if(articleOptional.isPresent()) {
-            articleOptional.get().incrementeQuantite();
+        int indexArticle = recupererIndexArticle(reference);
+        if(indexArticle > 0) {
+            articles.set(indexArticle, articles.get(indexArticle).incrementeQuantite2());
         } else {
             addQuantiteParReference(1, reference);
         }
@@ -56,10 +67,13 @@ public class Panier {
     }
 
     public void decrementerQuantite(String reference) {
-        Optional<Article> articleOptional = recupererArticle(reference);
-        if(articleOptional.isPresent()){
-            articleOptional.get().decrementeQuantite();
-            if(articleOptional.get().getQuantite() == 0){
+        int indexArticle = recupererIndexArticle(reference);
+
+        if(indexArticle > -1){
+            var newArticle = articles.get(indexArticle).decrementeQuantite2();
+            if (!newArticle.estZero()) {
+                articles.set(indexArticle, newArticle);
+            } else {
                 deleteRef(reference);
             }
         }
