@@ -1,10 +1,12 @@
-package com.enslipchaussettes.api.domain;
+package com.enslipchaussettes.api.domain.panier;
+
+import com.enslipchaussettes.api.domain.produit.Catalogue;
 
 import java.util.List;
 import java.util.UUID;
 
 public class PanierPort implements UtilisationPanier {
-    private  Catalogue catalogue = null;
+    private Catalogue catalogue = null;
     private final PanierRep panierRep;
 
     public PanierPort(PanierRep panierRep, Catalogue catalogue) {

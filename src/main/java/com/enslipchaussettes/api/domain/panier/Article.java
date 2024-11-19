@@ -1,4 +1,6 @@
-package com.enslipchaussettes.api.domain;
+package com.enslipchaussettes.api.domain.panier;
+
+import com.enslipchaussettes.api.domain.produit.Produit;
 
 public class Article {
 

@@ -1,8 +1,6 @@
-package com.enslipchaussettes.api.controllers;
+package com.enslipchaussettes.api.controllers.panier;
 
-import com.enslipchaussettes.api.domain.Panier;
-import com.enslipchaussettes.api.domain.PanierRep;
-import com.enslipchaussettes.api.domain.UtilisationPanier;
+import com.enslipchaussettes.api.domain.panier.UtilisationPanier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-public class MainController {
+public class PanierController {
 
 	@Autowired
 	private UtilisationPanier utilisationPanier;

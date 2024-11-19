@@ -1,8 +1,8 @@
-package com.enslipchaussettes.api.infra;
+package com.enslipchaussettes.api.infra.produit;
 
-import com.enslipchaussettes.api.domain.Catalogue;
-import com.enslipchaussettes.api.domain.Produit;
-import com.enslipchaussettes.api.domain.ProduitAbsent;
+import com.enslipchaussettes.api.domain.produit.Catalogue;
+import com.enslipchaussettes.api.domain.produit.Produit;
+import com.enslipchaussettes.api.domain.produit.ProduitAbsent;
 
 import java.util.HashMap;
 

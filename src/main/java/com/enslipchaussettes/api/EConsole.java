@@ -1,11 +1,14 @@
 package com.enslipchaussettes.api;
 
-import com.enslipchaussettes.api.domain.*;
-import com.enslipchaussettes.api.infra.CatalogueEnMemoire;
-import com.enslipchaussettes.api.infra.ConsolePanierPresenter;
-import com.enslipchaussettes.api.infra.PanierMemoire;
+import com.enslipchaussettes.api.domain.panier.PanierPort;
+import com.enslipchaussettes.api.domain.panier.PanierPresenter;
+import com.enslipchaussettes.api.domain.panier.PanierRep;
+import com.enslipchaussettes.api.domain.panier.UtilisationPanier;
+import com.enslipchaussettes.api.domain.produit.Catalogue;
+import com.enslipchaussettes.api.infra.produit.CatalogueEnMemoire;
+import com.enslipchaussettes.api.infra.panier.presenters.ConsolePanierPresenter;
+import com.enslipchaussettes.api.infra.panier.repositories.PanierMemoire;
 
-import java.util.List;
 import java.util.UUID;
 
 public class EConsole {

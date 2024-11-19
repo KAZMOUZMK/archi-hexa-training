@@ -1,8 +1,13 @@
 package com.enslipchaussettes.api.infra;
 
-import com.enslipchaussettes.api.database.DatabaseSpringArticleRepository;
-import com.enslipchaussettes.api.database.DatabaseSpringPanierRepository;
-import com.enslipchaussettes.api.domain.*;
+import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringArticleRepository;
+import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringPanierRepository;
+import com.enslipchaussettes.api.domain.panier.Article;
+import com.enslipchaussettes.api.domain.panier.Panier;
+import com.enslipchaussettes.api.domain.panier.PanierRep;
+import com.enslipchaussettes.api.domain.produit.Produit;
+import com.enslipchaussettes.api.infra.panier.repositories.PanierRepDatabaseImpl;
+import com.enslipchaussettes.api.infra.produit.CatalogueEnMemoire;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

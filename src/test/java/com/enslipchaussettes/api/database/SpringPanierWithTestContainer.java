@@ -2,6 +2,8 @@ package com.enslipchaussettes.api.database;
 
 import com.enslipchaussettes.api.infra.dao.ArticleDao;
 import com.enslipchaussettes.api.infra.dao.PanierDao;
+import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringArticleRepository;
+import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringPanierRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

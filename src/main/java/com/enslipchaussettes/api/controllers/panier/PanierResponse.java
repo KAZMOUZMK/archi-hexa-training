@@ -1,4 +1,4 @@
-package com.enslipchaussettes.api.controllers;
+package com.enslipchaussettes.api.controllers.panier;
 
 import java.util.List;
 

@@ -1,5 +1,10 @@
 package com.enslipchaussettes.api.domain;
 
+import com.enslipchaussettes.api.domain.panier.Panier;
+import com.enslipchaussettes.api.domain.panier.PanierPort;
+import com.enslipchaussettes.api.domain.panier.PanierRep;
+import com.enslipchaussettes.api.domain.produit.Catalogue;
+import com.enslipchaussettes.api.domain.produit.Produit;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

@@ -1,11 +1,11 @@
-package com.enslipchaussettes.api.infra;
+package com.enslipchaussettes.api.infra.panier.repositories;
 
-import com.enslipchaussettes.api.database.DatabaseSpringArticleRepository;
-import com.enslipchaussettes.api.database.DatabaseSpringPanierRepository;
-import com.enslipchaussettes.api.domain.Catalogue;
-import com.enslipchaussettes.api.domain.Panier;
-import com.enslipchaussettes.api.domain.PanierRep;
-import com.enslipchaussettes.api.domain.Produit;
+import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringArticleRepository;
+import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringPanierRepository;
+import com.enslipchaussettes.api.domain.produit.Catalogue;
+import com.enslipchaussettes.api.domain.panier.Panier;
+import com.enslipchaussettes.api.domain.panier.PanierRep;
+import com.enslipchaussettes.api.domain.produit.Produit;
 import com.enslipchaussettes.api.infra.dao.ArticleDao;
 import com.enslipchaussettes.api.infra.dao.PanierDao;
 import org.springframework.beans.factory.annotation.Autowired;

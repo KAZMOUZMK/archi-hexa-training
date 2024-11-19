@@ -1,4 +1,4 @@
-package com.enslipchaussettes.api.domain;
+package com.enslipchaussettes.api.domain.produit;
 
 import java.util.Objects;
 

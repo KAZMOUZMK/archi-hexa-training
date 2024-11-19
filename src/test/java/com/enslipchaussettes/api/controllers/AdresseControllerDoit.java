@@ -1,5 +1,6 @@
 package com.enslipchaussettes.api.controllers;
 
+import com.enslipchaussettes.api.controllers.adresse.AdresseController;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.mock;

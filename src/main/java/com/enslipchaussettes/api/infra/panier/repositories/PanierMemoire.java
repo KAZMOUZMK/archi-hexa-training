@@ -1,7 +1,7 @@
-package com.enslipchaussettes.api.infra;
+package com.enslipchaussettes.api.infra.panier.repositories;
 
-import com.enslipchaussettes.api.domain.Panier;
-import com.enslipchaussettes.api.domain.PanierRep;
+import com.enslipchaussettes.api.domain.panier.Panier;
+import com.enslipchaussettes.api.domain.panier.PanierRep;
 
 import java.util.HashMap;
 import java.util.UUID;

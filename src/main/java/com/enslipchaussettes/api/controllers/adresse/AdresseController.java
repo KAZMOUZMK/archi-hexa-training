@@ -1,5 +1,6 @@
-package com.enslipchaussettes.api.controllers;
+package com.enslipchaussettes.api.controllers.adresse;
 
+import com.enslipchaussettes.api.controllers.RechercheAdresseResponse;
 import com.enslipchaussettes.api.domain.adresse.UtilisationAdresse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

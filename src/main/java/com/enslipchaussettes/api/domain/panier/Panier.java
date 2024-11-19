@@ -1,5 +1,7 @@
-package com.enslipchaussettes.api.domain;
+package com.enslipchaussettes.api.domain.panier;
 
+
+import com.enslipchaussettes.api.domain.produit.Produit;
 
 import java.util.ArrayList;
 import java.util.List;

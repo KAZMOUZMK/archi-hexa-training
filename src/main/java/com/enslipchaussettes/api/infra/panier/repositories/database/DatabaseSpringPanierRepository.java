@@ -1,4 +1,4 @@
-package com.enslipchaussettes.api.database;
+package com.enslipchaussettes.api.infra.panier.repositories.database;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -1,6 +1,6 @@
-package com.enslipchaussettes.api.infra;
+package com.enslipchaussettes.api.infra.panier.presenters;
 
-import com.enslipchaussettes.api.domain.PanierPresenter;
+import com.enslipchaussettes.api.domain.panier.PanierPresenter;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.enslipchaussettes.api.domain;
+package com.enslipchaussettes.api.domain.panier;
 
 import java.util.UUID;
 
