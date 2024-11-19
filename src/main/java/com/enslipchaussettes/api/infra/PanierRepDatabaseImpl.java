@@ -42,7 +42,7 @@ public class PanierRepDatabaseImpl implements PanierRep {
             databaseSpringArticleRepository.deleteAll(panierDao.getArticles());
         }
         List<ArticleDao> listeArticleDao = panier.showPanierAvecQuantite().stream().map(a -> new ArticleDao(a.getReference(), a.getQuantite(), panierDao)).toList();
-        panierDao.setArticles(listeArticleDao);
+        //panierDao.setArticles(listeArticleDao);
         databaseSpringPanierRepository.save(panierDao);
         databaseSpringArticleRepository.saveAll(listeArticleDao);
     }

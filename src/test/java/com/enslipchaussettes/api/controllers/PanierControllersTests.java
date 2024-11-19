@@ -55,6 +55,6 @@ public class PanierControllersTests {
         mvc.perform(MockMvcRequestBuilders
                         .get("/panier/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0]").value("slip-noir"));
+                .andExpect(jsonPath("$.articles[0]").value("slip-noir"));
     }
 }

@@ -34,5 +34,4 @@ public class PanierDao {
     @OneToMany(mappedBy="panier",fetch = FetchType.EAGER)
     private List<ArticleDao> articles = new LinkedList<>();
 
-    private String reference;
 }
