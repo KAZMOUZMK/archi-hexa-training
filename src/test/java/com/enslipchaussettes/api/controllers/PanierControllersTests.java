@@ -45,8 +45,8 @@ public class PanierControllersTests {
         String id = mvc.perform(MockMvcRequestBuilders.post("/panier").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
-        PanierRequest panierRequest = new PanierRequest();
-        panierRequest.setSku("slip-noir");
+        PanierRequest panierRequest = new PanierRequest("slip-noir");
+        //panierRequest.setSku("slip-noir");
         String x = new ObjectMapper().writeValueAsString(panierRequest);
         mvc.perform(MockMvcRequestBuilders.put("/panier/"+ id).contentType(MediaType.APPLICATION_JSON)
                                 .content(x))
