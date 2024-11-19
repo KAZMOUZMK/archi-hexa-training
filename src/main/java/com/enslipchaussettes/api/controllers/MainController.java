@@ -44,7 +44,7 @@ public class MainController {
 	@PutMapping("/panier/{id}")
 	public ResponseEntity<String> savePanier(@PathVariable String id, @RequestBody PanierRequest panierRequest) {
 		utilisationPanier.ajoutReference(UUID.fromString(id), panierRequest.getSku());
-		return new ResponseEntity<>("",HttpStatus.OK);
+		return ResponseEntity.ok("");
 	}
 }
 
