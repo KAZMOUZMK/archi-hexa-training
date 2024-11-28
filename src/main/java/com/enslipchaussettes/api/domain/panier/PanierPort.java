@@ -80,7 +80,6 @@ public class PanierPort implements UtilisationPanier {
     public UUID validerPanier(UUID uuid) {
         Panier panier = panierRep.getPanier(uuid);
         Envoi envoi = panier.validerPanier();
-        panierRep.savePanier(panier);
         envoiRep.saveEnvoi(envoi);
         return envoi.getId();
     }

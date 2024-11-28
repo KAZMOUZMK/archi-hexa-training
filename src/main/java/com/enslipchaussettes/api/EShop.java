@@ -2,7 +2,12 @@ package com.enslipchaussettes.api;
 
 import com.enslipchaussettes.api.domain.adresse.AdressePort;
 import com.enslipchaussettes.api.domain.adresse.UtilisationAdresse;
+import com.enslipchaussettes.api.domain.envoi.EnvoiPort;
+import com.enslipchaussettes.api.domain.envoi.EnvoiRep;
+import com.enslipchaussettes.api.domain.envoi.UtilisationEnvoi;
+import com.enslipchaussettes.api.domain.panier.PanierRep;
 import com.enslipchaussettes.api.infra.adresse.GoogleApiAdresse;
+import com.enslipchaussettes.api.infra.envoi.EnvoiRepositoryHybride;
 import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringArticleRepository;
 import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringPanierRepository;
 import com.enslipchaussettes.api.domain.panier.PanierPort;
@@ -18,20 +23,33 @@ import org.springframework.context.annotation.Bean;
 public class EShop {
 
 	@Autowired
-	private DatabaseSpringPanierRepository repositorypanier;
+	private DatabaseSpringPanierRepository databaseSpringPanierRepository;
 
 	@Autowired
-	private DatabaseSpringArticleRepository repositoryArticle;
+	private DatabaseSpringArticleRepository databaseSpringArticleRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EShop.class, args);
 	}
 
 	@Bean
+	public PanierRep panierRepository() {
+		return new PanierRepDatabaseImpl(databaseSpringPanierRepository, databaseSpringArticleRepository, new CatalogueEnMemoire());
+	}
+
+	@Bean
+	public EnvoiRep envoiRepository() {
+		return new EnvoiRepositoryHybride(panierRepository());
+	}
+
+
+
+	@Bean
 	public UtilisationPanier utiliserPanier() {
 		var catalogue = new CatalogueEnMemoire();
-		var panierRepository = new PanierRepDatabaseImpl(repositorypanier, repositoryArticle, catalogue);
-		return new PanierPort(panierRepository, catalogue);
+		var panierRepository = new PanierRepDatabaseImpl(databaseSpringPanierRepository, databaseSpringArticleRepository, catalogue);
+		var envoiRepository = new EnvoiRepositoryHybride(panierRepository);
+		return new PanierPort(panierRepository, catalogue, envoiRepository);
 	}
 
 	@Bean
@@ -39,5 +57,11 @@ public class EShop {
 		GoogleApiAdresse apiAdresse = new GoogleApiAdresse();
 		return new AdressePort(apiAdresse);
 	}
+
+//	@Bean
+//	public UtilisationEnvoi utilisationEnvoi() {
+//		var envoiRep = new EnvoiRepositoryHybride(new PanierRepDatabaseImpl(databaseSpringPanierRepository, databaseSpringArticleRepository, new CatalogueEnMemoire()));
+//		return new EnvoiPort(envoiRep);
+//	}
 
 }

@@ -51,5 +51,11 @@ public class PanierController {
 		utilisationPanier.ajouterAdresse(UUID.fromString(id), adresseRequest);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
+
+	@PutMapping("/panier/{id}/valider")
+	public ResponseEntity<String> validerPanier(@PathVariable String id) {
+		var envoiId = utilisationPanier.validerPanier(UUID.fromString(id));
+		return ResponseEntity.ok(envoiId.toString());
+	}
 }
 

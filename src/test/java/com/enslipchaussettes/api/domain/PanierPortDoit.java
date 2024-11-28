@@ -89,7 +89,6 @@ public class PanierPortDoit {
 
         UUID envoiId = utilisationPanier.validerPanier(panier.uuid);
 
-        verify(panierRep).savePanier(argThat(p -> p.getEtat().equals(EtatPanier.VALIDE)));
         verify(envoiRep).saveEnvoi(argThat(e -> e.getEtat().equals(Etat.CONSTITUE)));
 
 

@@ -48,4 +48,8 @@ public class Envoi {
     public UUID getId() {
         return this.uuid;
     }
+
+    public Panier getPanier() {
+        return panier;
+    }
 }

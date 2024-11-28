@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class PanierControllerDoit {
     @Test
@@ -29,5 +29,17 @@ public class PanierControllerDoit {
         UUID panierId = UUID.randomUUID();
         controller.getPanierByID(panierId.toString());
         verify(utilisationPanier).presenterPanier(any(), any());
+    }
+
+    @Test
+    public void appeler_use_case_pour_valider_un_panier() {
+        UtilisationPanier utilisationPanier = mock(UtilisationPanier.class);
+        PanierController controller = new PanierController(utilisationPanier);
+        var envoiId = UUID.randomUUID();
+        UUID panierId = UUID.randomUUID();
+        when(utilisationPanier.validerPanier(panierId)).thenReturn(envoiId);
+        var resp = controller.validerPanier(panierId.toString());
+        verify(utilisationPanier).validerPanier(panierId);
+        assertEquals(envoiId.toString(), resp.getBody().toString());
     }
 }

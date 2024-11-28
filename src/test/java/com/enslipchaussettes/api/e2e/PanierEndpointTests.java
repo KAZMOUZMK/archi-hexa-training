@@ -82,4 +82,27 @@ public class PanierEndpointTests {
                 .andExpect(jsonPath("$.address.name").value("foobar"));
 
     }
+
+    @Test
+    public void valider_panier() throws Exception {
+        String id = mvc.perform(MockMvcRequestBuilders.post("/panier").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        PanierRequest panierRequest = new PanierRequest("slip-noir");
+        String panierRequestBody = new ObjectMapper().writeValueAsString(panierRequest);
+        mvc.perform(MockMvcRequestBuilders.put("/panier/" + id).contentType(MediaType.APPLICATION_JSON)
+                        .content(panierRequestBody))
+                .andExpect(status().isOk());
+
+        AdresseRequest adresseRequest = new AdresseRequest("foobar", "10 rue truc", "75001", "Paris", "France");
+        String adresseRequestBody = new ObjectMapper().writeValueAsString(adresseRequest);
+        mvc.perform(MockMvcRequestBuilders.put(String.format("/panier/%s/adresse", id)).contentType(MediaType.APPLICATION_JSON)
+                        .content(adresseRequestBody))
+                .andExpect(status().isOk());
+
+
+        mvc.perform(MockMvcRequestBuilders.put(String.format("/panier/%s/valider", id)).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(notNullValue()));
+    }
 }

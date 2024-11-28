@@ -118,7 +118,7 @@ public class PanierDoit {
     @Test
     public void permettre_d_ajouter_une_adresse() {
         var panier = new Panier();
-        var   adresseRequest = new AdresseRequest("foobar", "10 rue truc", "75001", "Paris", "France");
+        var adresseRequest = new AdresseRequest("foobar", "10 rue truc", "75001", "Paris", "France");
         panier.ajouterAdresse(adresseRequest);
         var actual = panier.getAdresse();
         assertEquals(adresseRequest.nom(), actual.nom());
