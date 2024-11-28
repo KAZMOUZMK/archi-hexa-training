@@ -4,6 +4,6 @@ import com.enslipchaussettes.api.domain.panier.Adresse;
 
 import java.util.List;
 
-public record PanierResponse(List<String> articles, Adresse adresse) {
+public record PanierResponse(List<String> articles, AdresseEng address) {
 
 }

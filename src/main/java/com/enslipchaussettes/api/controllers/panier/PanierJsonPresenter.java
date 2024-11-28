@@ -10,7 +10,19 @@ public class PanierJsonPresenter implements PanierPresenter {
     private Adresse adresse = null;
 
     public PanierResponse genererReponse() {
-        return new PanierResponse(contenu, adresse);
+
+        AdresseEng adresseEng = null;
+        if (adresse != null) {
+            adresseEng = new AdresseEng(
+                    adresse.nom(),
+                    adresse.rue(),
+                    adresse.codePostal(),
+                    adresse.ville(),
+                    adresse.pays()
+                    );
+        }
+
+        return new PanierResponse(contenu, adresseEng);
     }
 
     @Override

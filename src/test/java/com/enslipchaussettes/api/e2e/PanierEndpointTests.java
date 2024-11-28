@@ -79,7 +79,7 @@ public class PanierEndpointTests {
         mvc.perform(MockMvcRequestBuilders
                         .get("/panier/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.adresse.nom").value("foobar"));
+                .andExpect(jsonPath("$.address.name").value("foobar"));
 
     }
 }
