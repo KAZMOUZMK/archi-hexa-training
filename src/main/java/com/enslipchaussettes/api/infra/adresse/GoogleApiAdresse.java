@@ -1,6 +1,7 @@
 package com.enslipchaussettes.api.infra.adresse;
 
 import com.enslipchaussettes.api.controllers.RechercheAdresseResponse;
+import com.enslipchaussettes.api.controllers.RechercheDetailAdresseResponse;
 import com.enslipchaussettes.api.domain.adresse.AdresseRepository;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,5 +29,45 @@ public class GoogleApiAdresse implements AdresseRepository {
         var returned = googleSearchPlaceReturn.candidates().stream().map(c -> new RechercheAdresseResponse(c.place_id(), c.formatted_address())).toList();
         return returned;
 
+    }
+
+    @Override
+    public RechercheDetailAdresseResponse recupererDetail(String placeId) {
+        Map<String,String> params = new HashMap<>();
+        params.put("place_id", placeId);
+        params.put("key", google_place_key);
+        String apiEndpoint = "https://maps.googleapis.com/maps/api/place/details/json?key={key}&place_id={place_id}&fields=address_components";
+        var googleSearchPlaceReturn = this.restTemplate.getForObject( apiEndpoint, GooglePlaceDetailReturn.class, params );
+        String streetNumber ="";
+        String streetName="";
+        String locality="";
+        String postal_code="";
+        String country="";
+        for (GoogleAddressComponentsItem item : googleSearchPlaceReturn.result().address_components()) {
+            if (item.types().contains("street_number")) {
+                streetNumber = item.short_name();
+            }
+
+            else if (item.types().contains("route")) {
+                streetName = item.short_name();
+            }
+
+            else if (item.types().contains("locality")) {
+                locality = item.long_name();
+            }
+
+            else if (item.types().contains("postal_code")) {
+                postal_code = item.short_name();
+            }
+
+            else if (item.types().contains("country")) {
+                country = item.long_name();
+            }
+        }
+        return new RechercheDetailAdresseResponse(
+                String.format("%s %s", streetNumber, streetName),
+                postal_code,
+                locality,
+                country);
     }
 }
