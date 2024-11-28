@@ -1,6 +1,8 @@
 package com.enslipchaussettes.api.domain;
 
 import com.enslipchaussettes.api.controllers.panier.AdresseRequest;
+import com.enslipchaussettes.api.domain.envoi.Envoi;
+import com.enslipchaussettes.api.domain.envoi.Etat;
 import com.enslipchaussettes.api.domain.panier.Article;
 import com.enslipchaussettes.api.domain.panier.Panier;
 import com.enslipchaussettes.api.domain.produit.Produit;
@@ -124,6 +126,21 @@ public class PanierDoit {
         assertEquals(adresseRequest.codePostal(), actual.codePostal());
         assertEquals(adresseRequest.ville(), actual.ville());
         assertEquals(adresseRequest.pays(), actual.pays());
+    }
+
+    @Test
+    void pouvoir_valider_un_panier() {
+        Panier panier = new Panier();
+        AdresseRequest adresseRequest = new AdresseRequest("maison","7 rue de Paris", "93100", "Montreuil", "France");
+        panier.ajouterAdresse(adresseRequest);
+
+        Envoi envoi = panier.validerPanier();
+
+        assertEquals("TransportCheap", envoi.getTransporteur());
+        assertNull(envoi.getNumeroSuivi());
+        assertEquals(Etat.CONSTITUE, envoi.getEtat());
+        assertEquals("7 rue de Paris", envoi.getAdresse());
+
     }
 
 }

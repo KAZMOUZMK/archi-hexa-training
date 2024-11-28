@@ -2,6 +2,7 @@ package com.enslipchaussettes.api.domain.panier;
 
 
 import com.enslipchaussettes.api.controllers.panier.AdresseRequest;
+import com.enslipchaussettes.api.domain.envoi.Envoi;
 import com.enslipchaussettes.api.domain.produit.Produit;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Panier {
     public  final UUID uuid;
     private List<Article> articles = new ArrayList<>();
     private Adresse adresse;
+    private EtatPanier etat = EtatPanier.EN_COURS;
 
     public Panier(UUID uuid) {
         this.uuid = uuid;
@@ -88,5 +90,18 @@ public class Panier {
 
     public void ajouterAdresse(AdresseRequest adresseRequest) {
         this.adresse = new Adresse(adresseRequest.nom(), adresseRequest.rue(), adresseRequest.codePostal(), adresseRequest.ville(), adresseRequest.pays());
+    }
+
+    public Envoi validerPanier() {
+        this.etat = EtatPanier.VALIDE;
+        return new Envoi(this);
+    }
+
+    public EtatPanier getEtat() {
+        return this.etat;
+    }
+
+    public void envoyer() {
+        this.etat = EtatPanier.ENVOYE;
     }
 }

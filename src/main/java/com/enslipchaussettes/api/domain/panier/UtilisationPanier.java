@@ -19,4 +19,6 @@ public interface UtilisationPanier {
     void ajouterAdresse(UUID panierId, AdresseRequest adresseRequest);
 
     void presenterPanier(UUID panierId, PanierPresenter panierPresenter);
+
+    UUID validerPanier(UUID uuid);
 }
