@@ -14,17 +14,9 @@ import java.util.UUID;
 public class EnvoiController {
     private final UtilisationEnvoi utilisationEnvoi;
 
-    @Autowired
-    private EnvoiRep envoiRep;
-
     public EnvoiController(UtilisationEnvoi utilisationEnvoi) {
         this.utilisationEnvoi = utilisationEnvoi;
     }
-
-    public EnvoiController() {
-        this.utilisationEnvoi = new EnvoiPort(envoiRep);
-    }
-
 
     @PutMapping("/envoi/{id}/expedier")
     public ResponseEntity<Void> expedierEnvoi(@PathVariable String id, @RequestBody ExpeditionRequest request) {

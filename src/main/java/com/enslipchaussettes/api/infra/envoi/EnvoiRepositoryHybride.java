@@ -11,6 +11,7 @@ import java.util.UUID;
 
 public class EnvoiRepositoryHybride implements EnvoiRep {
 
+    private static EnvoiRepositoryHybride instance = null;
     private final HashMap<UUID, Envoi> envois;
 
     @Autowired
@@ -21,6 +22,13 @@ public class EnvoiRepositoryHybride implements EnvoiRep {
         this.panierRep = panierRep;
     }
 
+    public static EnvoiRepositoryHybride getInstance(PanierRep panierRepository) {
+        if (instance == null) {
+           instance = new EnvoiRepositoryHybride(panierRepository);
+        }
+        return instance;
+    }
+
     @Override
     public void saveEnvoi(Envoi envoi) {
         panierRep.savePanier(envoi.getPanier());
@@ -29,6 +37,6 @@ public class EnvoiRepositoryHybride implements EnvoiRep {
 
     @Override
     public Envoi recupererEnvoi(UUID id) {
-        return null;
+        return this.envois.get(id);
     }
 }

@@ -33,22 +33,10 @@ public class EShop {
 	}
 
 	@Bean
-	public PanierRep panierRepository() {
-		return new PanierRepDatabaseImpl(databaseSpringPanierRepository, databaseSpringArticleRepository, new CatalogueEnMemoire());
-	}
-
-	@Bean
-	public EnvoiRep envoiRepository() {
-		return new EnvoiRepositoryHybride(panierRepository());
-	}
-
-
-
-	@Bean
 	public UtilisationPanier utiliserPanier() {
 		var catalogue = new CatalogueEnMemoire();
 		var panierRepository = new PanierRepDatabaseImpl(databaseSpringPanierRepository, databaseSpringArticleRepository, catalogue);
-		var envoiRepository = new EnvoiRepositoryHybride(panierRepository);
+		var envoiRepository = EnvoiRepositoryHybride.getInstance(panierRepository);
 		return new PanierPort(panierRepository, catalogue, envoiRepository);
 	}
 
@@ -58,10 +46,11 @@ public class EShop {
 		return new AdressePort(apiAdresse);
 	}
 
-//	@Bean
-//	public UtilisationEnvoi utilisationEnvoi() {
-//		var envoiRep = new EnvoiRepositoryHybride(new PanierRepDatabaseImpl(databaseSpringPanierRepository, databaseSpringArticleRepository, new CatalogueEnMemoire()));
-//		return new EnvoiPort(envoiRep);
-//	}
+	@Bean
+	public UtilisationEnvoi utilisationEnvoi() {
+		var panierRepository = new PanierRepDatabaseImpl(databaseSpringPanierRepository, databaseSpringArticleRepository, new CatalogueEnMemoire());
+		var envoiRepository = EnvoiRepositoryHybride.getInstance(panierRepository);
+		return new EnvoiPort(envoiRepository);
+	}
 
 }
