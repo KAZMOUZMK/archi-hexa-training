@@ -3,6 +3,9 @@ package com.enslipchaussettes.api.domain.adresse;
 import com.enslipchaussettes.api.controllers.RechercheAdresseResponse;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -13,7 +16,8 @@ public class AdressePortDoit {
 
         AdressePort port = new AdressePort(repo);
         String adresse = "adresse";
-        var expected = new RechercheAdresseResponse("adresseId", "xxx rue truc");
+        var expected = List.of(new RechercheAdresseResponse("adresseId", "xxx rue truc"));
+
         when(repo.rechercheAdresse("adresse")).thenReturn(expected);
         var adresseReponse = port.chercherAdresse(adresse);
         verify(repo).rechercheAdresse(adresse);

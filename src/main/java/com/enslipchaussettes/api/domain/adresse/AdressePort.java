@@ -2,6 +2,8 @@ package com.enslipchaussettes.api.domain.adresse;
 
 import com.enslipchaussettes.api.controllers.RechercheAdresseResponse;
 
+import java.util.List;
+
 public class AdressePort implements UtilisationAdresse{
     private final AdresseRepository repo;
 
@@ -10,7 +12,7 @@ public class AdressePort implements UtilisationAdresse{
     }
 
     @Override
-    public RechercheAdresseResponse chercherAdresse(String adresse) {
+    public List<RechercheAdresseResponse> chercherAdresse(String adresse) {
         return repo.rechercheAdresse(adresse);
     }
 }

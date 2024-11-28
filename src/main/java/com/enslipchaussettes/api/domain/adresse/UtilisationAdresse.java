@@ -2,6 +2,8 @@ package com.enslipchaussettes.api.domain.adresse;
 
 import com.enslipchaussettes.api.controllers.RechercheAdresseResponse;
 
+import java.util.List;
+
 public interface UtilisationAdresse {
-    RechercheAdresseResponse chercherAdresse(String adresse);
+    List<RechercheAdresseResponse> chercherAdresse(String adresse);
 }

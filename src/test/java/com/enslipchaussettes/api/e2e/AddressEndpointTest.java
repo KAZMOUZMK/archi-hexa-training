@@ -13,6 +13,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @Testcontainers
@@ -31,7 +32,7 @@ public class AddressEndpointTest {
     public void peut_faire_une_recherche_d_adresse() throws Exception {
         mvc.perform(MockMvcRequestBuilders
                         .get("/adresse?search=140 avenue Jean Lolive 93500 pantin")
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].adresse").value("140 Av. Jean Lolive, 93500 Pantin, France"))
                 .andExpect(jsonPath("$[0].adresseId").value("ChIJTe56hgBt5kcRMtLb4bh_mLE"));
     }

@@ -1,5 +1,8 @@
 package com.enslipchaussettes.api;
 
+import com.enslipchaussettes.api.domain.adresse.AdressePort;
+import com.enslipchaussettes.api.domain.adresse.UtilisationAdresse;
+import com.enslipchaussettes.api.infra.adresse.GoogleApiAdresse;
 import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringArticleRepository;
 import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringPanierRepository;
 import com.enslipchaussettes.api.domain.panier.PanierPort;
@@ -29,6 +32,12 @@ public class EShop {
 		var catalogue = new CatalogueEnMemoire();
 		var panierRepository = new PanierRepDatabaseImpl(repositorypanier, repositoryArticle, catalogue);
 		return new PanierPort(panierRepository, catalogue);
+	}
+
+	@Bean
+	public UtilisationAdresse utilisationAdresse() {
+		GoogleApiAdresse apiAdresse = new GoogleApiAdresse();
+		return new AdressePort(apiAdresse);
 	}
 
 }

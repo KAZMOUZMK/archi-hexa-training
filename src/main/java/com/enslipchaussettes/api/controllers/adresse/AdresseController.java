@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
+@RestController
 public class AdresseController {
     @Autowired
     private UtilisationAdresse utilisationAdresse;
@@ -14,9 +18,9 @@ public class AdresseController {
         this.utilisationAdresse = utilisationAdresse;
     }
 
-    @GetMapping("/address")
-    public ResponseEntity<RechercheAdresseResponse> rechercheAdresse(@RequestParam String adresse) {
-        RechercheAdresseResponse response = utilisationAdresse.chercherAdresse(adresse);
+    @GetMapping("/adresse")
+    public ResponseEntity<List<RechercheAdresseResponse>> rechercheAdresse(@RequestParam String search) {
+        var response = utilisationAdresse.chercherAdresse(search);
         return ResponseEntity.ok(response);
     }
 }
