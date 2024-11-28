@@ -19,6 +19,15 @@ public class PanierDao {
         return uuid;
     }
 
+    public String nom;
+    public String rue;
+    public String codePostal;
+    public String ville;
+    public String Pays;
+
+    @OneToMany(mappedBy="panier",fetch = FetchType.EAGER)
+    private List<ArticleDao> articles = new LinkedList<>();
+
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
@@ -31,7 +40,43 @@ public class PanierDao {
         this.articles = articles;
     }
 
-    @OneToMany(mappedBy="panier",fetch = FetchType.EAGER)
-    private List<ArticleDao> articles = new LinkedList<>();
+    public String getNom() {
+        return nom;
+    }
 
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getRue() {
+        return rue;
+    }
+
+    public void setRue(String rue) {
+        this.rue = rue;
+    }
+
+    public String getCodePostal() {
+        return codePostal;
+    }
+
+    public void setCodePostal(String codePostal) {
+        this.codePostal = codePostal;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public String getPays() {
+        return Pays;
+    }
+
+    public void setPays(String pays) {
+        Pays = pays;
+    }
 }

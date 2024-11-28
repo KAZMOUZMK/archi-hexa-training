@@ -1,5 +1,6 @@
 package com.enslipchaussettes.api.domain;
 
+import com.enslipchaussettes.api.controllers.panier.AdresseRequest;
 import com.enslipchaussettes.api.domain.panier.Article;
 import com.enslipchaussettes.api.domain.panier.Panier;
 import com.enslipchaussettes.api.domain.produit.Produit;
@@ -110,6 +111,19 @@ public class PanierDoit {
         panier.decrementerQuantite(produit);
 
         assertEquals(panier.showPanierAvecQuantite().size(), 0);
+    }
+
+    @Test
+    public void permettre_d_ajouter_une_adresse() {
+        var panier = new Panier();
+        var   adresseRequest = new AdresseRequest("foobar", "10 rue truc", "75001", "Paris", "France");
+        panier.ajouterAdresse(adresseRequest);
+        var actual = panier.getAdresse();
+        assertEquals(adresseRequest.nom(), actual.nom());
+        assertEquals(adresseRequest.rue(), actual.rue());
+        assertEquals(adresseRequest.codePostal(), actual.codePostal());
+        assertEquals(adresseRequest.ville(), actual.ville());
+        assertEquals(adresseRequest.pays(), actual.pays());
     }
 
 }

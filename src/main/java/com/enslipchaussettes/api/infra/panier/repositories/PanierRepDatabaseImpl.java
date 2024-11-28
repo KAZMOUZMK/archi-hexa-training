@@ -1,5 +1,6 @@
 package com.enslipchaussettes.api.infra.panier.repositories;
 
+import com.enslipchaussettes.api.controllers.panier.AdresseRequest;
 import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringArticleRepository;
 import com.enslipchaussettes.api.infra.panier.repositories.database.DatabaseSpringPanierRepository;
 import com.enslipchaussettes.api.domain.produit.Catalogue;
@@ -41,6 +42,14 @@ public class PanierRepDatabaseImpl implements PanierRep {
             databaseSpringArticleRepository.deleteAll(panierDao.getArticles());
             panierDao.setArticles(new LinkedList<ArticleDao>());
         }
+        var adresse = panier.getAdresse();
+        if (adresse != null) {
+            panierDao.setNom(adresse.nom());
+            panierDao.setRue(adresse.rue());
+            panierDao.setCodePostal(adresse.codePostal());
+            panierDao.setVille(adresse.ville());
+            panierDao.setPays(adresse.pays());
+        }
         List<ArticleDao> listeArticleDao = panier.showPanierAvecQuantite().stream().map(a -> new ArticleDao(a.getReference(), a.getQuantite(), panierDao)).toList();
 
         databaseSpringPanierRepository.save(panierDao);
@@ -55,6 +64,16 @@ public class PanierRepDatabaseImpl implements PanierRep {
         for(ArticleDao articleDao: panierDao.getArticles()){
             Produit produit = catalogue.getProduit(articleDao.getReference());
             panier.addQuantiteParProduit(articleDao.getQuantite(), produit);
+        }
+        if (panierDao.getRue() != null) {
+            var adresse = new AdresseRequest(
+                    panierDao.getNom(),
+                    panierDao.getRue(),
+                    panierDao.getCodePostal(),
+                    panierDao.getVille(),
+                    panierDao.getPays()
+                    );
+            panier.ajouterAdresse(adresse);
         }
         return panier;
     }

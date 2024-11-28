@@ -1,5 +1,6 @@
-package com.enslipchaussettes.api.controllers;
+package com.enslipchaussettes.api.e2e;
 
+import com.enslipchaussettes.api.controllers.panier.AdresseRequest;
 import com.enslipchaussettes.api.controllers.panier.PanierRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Testcontainers
 @AutoConfigureMockMvc
-public class PanierControllersTests {
+public class PanierEndpointTests {
 
     @Autowired
     private MockMvc mvc;
@@ -56,5 +57,29 @@ public class PanierControllersTests {
                         .get("/panier/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.articles[0]").value("slip-noir"));
+    }
+
+    @Test
+    public void ajouter_une_adresse() throws Exception {
+        String id = mvc.perform(MockMvcRequestBuilders.post("/panier").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        PanierRequest panierRequest = new PanierRequest("slip-noir");
+        String panierRequestBody = new ObjectMapper().writeValueAsString(panierRequest);
+        mvc.perform(MockMvcRequestBuilders.put("/panier/" + id).contentType(MediaType.APPLICATION_JSON)
+                        .content(panierRequestBody))
+                .andExpect(status().isOk());
+
+        AdresseRequest adresseRequest = new AdresseRequest("foobar", "10 rue truc", "75001", "Paris", "France");
+        String adresseRequestBody = new ObjectMapper().writeValueAsString(adresseRequest);
+        mvc.perform(MockMvcRequestBuilders.put(String.format("/panier/%s/adresse", id)).contentType(MediaType.APPLICATION_JSON)
+                        .content(adresseRequestBody))
+                .andExpect(status().isOk());
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/panier/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.adresse.nom").value("foobar"));
+
     }
 }

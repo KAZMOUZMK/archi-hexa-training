@@ -1,5 +1,6 @@
 package com.enslipchaussettes.api.domain.panier;
 
+import com.enslipchaussettes.api.controllers.panier.AdresseRequest;
 import com.enslipchaussettes.api.domain.produit.Catalogue;
 
 import java.util.List;
@@ -48,5 +49,18 @@ public class PanierPort implements UtilisationPanier {
         Panier  panier = panierRep.getPanier(uuid);
         panierPresenter.ajouterContenu(panier.showPanier());
 
+    }
+
+    @Override
+    public void ajouterAdresse(UUID panierId, AdresseRequest adresseRequest) {
+        Panier  panier = panierRep.getPanier(panierId);
+        panier.ajouterAdresse(adresseRequest);
+        panierRep.savePanier(panier);
+    }
+
+    @Override
+    public Adresse showAdresse(UUID uuid) {
+        Panier  panier = panierRep.getPanier(uuid);
+        return panier.getAdresse();
     }
 }

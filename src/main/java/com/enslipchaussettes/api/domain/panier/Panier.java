@@ -1,6 +1,7 @@
 package com.enslipchaussettes.api.domain.panier;
 
 
+import com.enslipchaussettes.api.controllers.panier.AdresseRequest;
 import com.enslipchaussettes.api.domain.produit.Produit;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.UUID;
 public class Panier {
     public  final UUID uuid;
     private List<Article> articles = new ArrayList<>();
+    private Adresse adresse;
 
     public Panier(UUID uuid) {
         this.uuid = uuid;
@@ -78,5 +80,13 @@ public class Panier {
                 deleteProduit(produit);
             }
         }
+    }
+
+    public Adresse getAdresse() {
+        return this.adresse;
+    }
+
+    public void ajouterAdresse(AdresseRequest adresseRequest) {
+        this.adresse = new Adresse(adresseRequest.nom(), adresseRequest.rue(), adresseRequest.codePostal(), adresseRequest.ville(), adresseRequest.pays());
     }
 }

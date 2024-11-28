@@ -1,10 +1,12 @@
 package com.enslipchaussettes.api.domain;
 
+import com.enslipchaussettes.api.controllers.panier.AdresseRequest;
 import com.enslipchaussettes.api.domain.panier.Panier;
 import com.enslipchaussettes.api.domain.panier.PanierPort;
 import com.enslipchaussettes.api.domain.panier.PanierRep;
 import com.enslipchaussettes.api.domain.produit.Catalogue;
 import com.enslipchaussettes.api.domain.produit.Produit;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -53,5 +55,19 @@ public class PanierPortDoit {
         utilisationPanier.deleteReference(panier.uuid, "slip-noir");
         verify(panierRep, times(2)).savePanier(argThat(p -> p.uuid.equals(panier.uuid)));
         verify(catalogue, times(2)).getProduit("slip-noir");
+    }
+
+    @Test
+    public void ajouter_une_adresse() {
+        Catalogue catalogue = mock(Catalogue.class);
+        PanierRep panierRep = mock(PanierRep.class);
+
+        Panier panier = new Panier();
+        when(panierRep.getPanier(any())).thenReturn(panier);
+        PanierPort utilisationPanier  = new PanierPort(panierRep, catalogue);
+        AdresseRequest adresseRequest = new AdresseRequest("foobar", "10 rue truc", "75001", "Paris", "France");
+        utilisationPanier.ajouterAdresse(panier.uuid, adresseRequest);
+        verify(panierRep).savePanier(argThat(p -> p.getAdresse().ville().equals("Paris")));
+
     }
 }

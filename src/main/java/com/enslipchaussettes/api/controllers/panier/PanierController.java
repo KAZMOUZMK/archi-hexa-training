@@ -1,5 +1,6 @@
 package com.enslipchaussettes.api.controllers.panier;
 
+import com.enslipchaussettes.api.domain.panier.Adresse;
 import com.enslipchaussettes.api.domain.panier.UtilisationPanier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,10 @@ public class PanierController {
 	@Autowired
 	private UtilisationPanier utilisationPanier;
 
+	public PanierController(UtilisationPanier utilisationPanier) {
+		this.utilisationPanier=utilisationPanier;
+	}
+
 	@GetMapping("/")
 	public ResponseEntity<String> index() {
 		return new ResponseEntity<>("Greetings from Spring Boot!", HttpStatus.OK);
@@ -34,15 +39,20 @@ public class PanierController {
 	@GetMapping("/panier/{id}")
 	public ResponseEntity<PanierResponse> getPanierByID(@PathVariable String id) {
 		List<String> list = utilisationPanier.showReference(UUID.fromString(id));
-		PanierResponse panierResponse = new PanierResponse(list);
+		Adresse adresse = utilisationPanier.showAdresse(UUID.fromString(id));
+		PanierResponse panierResponse = new PanierResponse(list, adresse);
 		return new ResponseEntity<>(panierResponse, HttpStatus.OK);
 	}
-
 
 	@PutMapping("/panier/{id}")
 	public ResponseEntity<String> savePanier(@PathVariable String id, @RequestBody PanierRequest panierRequest) {
 		utilisationPanier.ajoutReference(UUID.fromString(id), panierRequest.sku());
 		return ResponseEntity.ok("");
+	}
+	@PutMapping("/panier/{id}/adresse")
+	public ResponseEntity<Void> ajouterAdresse(@PathVariable  String id, @RequestBody AdresseRequest adresseRequest) {
+		utilisationPanier.ajouterAdresse(UUID.fromString(id), adresseRequest);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }
 
