@@ -22,7 +22,7 @@ public class EConsole {
         System.out.println(uuid);
 
         utilisationPanier.ajoutReference(uuid,"slip-noir");
-        PanierPresenter panierPresenter = new ConsolePanierPresenter();
+        ConsolePanierPresenter panierPresenter = new ConsolePanierPresenter();
         utilisationPanier.showReference(uuid, panierPresenter);
         panierPresenter.afficher();
 

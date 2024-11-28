@@ -1,6 +1,5 @@
 package com.enslipchaussettes.api.controllers.panier;
 
-import com.enslipchaussettes.api.domain.panier.Adresse;
 import com.enslipchaussettes.api.domain.panier.UtilisationPanier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -38,10 +36,9 @@ public class PanierController {
 
 	@GetMapping("/panier/{id}")
 	public ResponseEntity<PanierResponse> getPanierByID(@PathVariable String id) {
-		List<String> list = utilisationPanier.showReference(UUID.fromString(id));
-		Adresse adresse = utilisationPanier.showAdresse(UUID.fromString(id));
-		PanierResponse panierResponse = new PanierResponse(list, adresse);
-		return new ResponseEntity<>(panierResponse, HttpStatus.OK);
+		PanierJsonPresenter panierPresenter = new PanierJsonPresenter();
+		utilisationPanier.presenterPanier(UUID.fromString(id), panierPresenter);
+		return new ResponseEntity<>(panierPresenter.genererReponse(), HttpStatus.OK);
 	}
 
 	@PutMapping("/panier/{id}")

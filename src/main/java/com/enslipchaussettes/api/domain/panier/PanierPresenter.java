@@ -4,6 +4,5 @@ import java.util.List;
 
 public interface PanierPresenter {
     void ajouterContenu(List<String> strings);
-
-    void afficher();
+    void ajouterAdresse(Adresse adresse);
 }

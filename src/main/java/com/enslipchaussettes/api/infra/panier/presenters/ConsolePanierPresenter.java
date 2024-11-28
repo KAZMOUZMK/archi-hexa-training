@@ -1,5 +1,6 @@
 package com.enslipchaussettes.api.infra.panier.presenters;
 
+import com.enslipchaussettes.api.domain.panier.Adresse;
 import com.enslipchaussettes.api.domain.panier.PanierPresenter;
 
 import java.util.List;
@@ -14,6 +15,10 @@ public class ConsolePanierPresenter implements PanierPresenter {
     }
 
     @Override
+    public void ajouterAdresse(Adresse adresse) {
+
+    }
+
     public void afficher() {
         System.out.println("---");
         this.contenu.forEach(System.out::println);

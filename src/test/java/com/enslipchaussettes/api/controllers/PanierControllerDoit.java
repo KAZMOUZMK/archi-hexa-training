@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -19,5 +20,14 @@ public class PanierControllerDoit {
         var uuid = UUID.randomUUID();
         controller.ajouterAdresse(uuid.toString(), adresseRequest);
         verify(utilisationPanier).ajouterAdresse(uuid, adresseRequest);
+    }
+
+    @Test
+    public void appeler_use_case_pour_presenter_panier() {
+        UtilisationPanier utilisationPanier = mock(UtilisationPanier.class);
+        PanierController controller = new PanierController(utilisationPanier);
+        UUID panierId = UUID.randomUUID();
+        controller.getPanierByID(panierId.toString());
+        verify(utilisationPanier).presenterPanier(any(), any());
     }
 }

@@ -59,8 +59,11 @@ public class PanierPort implements UtilisationPanier {
     }
 
     @Override
-    public Adresse showAdresse(UUID uuid) {
-        Panier  panier = panierRep.getPanier(uuid);
-        return panier.getAdresse();
+    public void presenterPanier(UUID panierId, PanierPresenter panierPresenter) {
+        Panier  panier = panierRep.getPanier(panierId);
+        var adresse = panier.getAdresse();
+        panierPresenter.ajouterContenu(panier.showPanierAvecQuantite().stream().map(a -> String.format("%s - %d", a.getReference(), a.getQuantite())).toList());
+        panierPresenter.ajouterAdresse(adresse);
+
     }
 }
