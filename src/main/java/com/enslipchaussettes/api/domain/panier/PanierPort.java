@@ -1,18 +1,27 @@
 package com.enslipchaussettes.api.domain.panier;
 
 import com.enslipchaussettes.api.controllers.panier.AdresseRequest;
+import com.enslipchaussettes.api.domain.envoi.Envoi;
+import com.enslipchaussettes.api.domain.envoi.EnvoiRep;
 import com.enslipchaussettes.api.domain.produit.Catalogue;
 
 import java.util.List;
 import java.util.UUID;
 
 public class PanierPort implements UtilisationPanier {
+    private  EnvoiRep envoiRep;
     private Catalogue catalogue = null;
     private final PanierRep panierRep;
 
     public PanierPort(PanierRep panierRep, Catalogue catalogue) {
         this.panierRep = panierRep;
         this.catalogue = catalogue;
+    }
+
+    public PanierPort(PanierRep panierRep, Catalogue catalogue, EnvoiRep envoiRep) {
+        this.panierRep = panierRep;
+        this.catalogue = catalogue;
+        this.envoiRep = envoiRep;
     }
 
     @Override
@@ -65,5 +74,14 @@ public class PanierPort implements UtilisationPanier {
         panierPresenter.ajouterContenu(panier.showPanierAvecQuantite().stream().map(a -> String.format("%s - %d", a.getReference(), a.getQuantite())).toList());
         panierPresenter.ajouterAdresse(adresse);
 
+    }
+
+    @Override
+    public UUID validerPanier(UUID uuid) {
+        Panier panier = panierRep.getPanier(uuid);
+        Envoi envoi = panier.validerPanier();
+        panierRep.savePanier(panier);
+        envoiRep.saveEnvoi(envoi);
+        return envoi.getId();
     }
 }
