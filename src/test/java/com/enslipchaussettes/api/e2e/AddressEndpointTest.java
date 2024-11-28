@@ -36,4 +36,12 @@ public class AddressEndpointTest {
                 .andExpect(jsonPath("$[0].adresse").value("140 Av. Jean Lolive, 93500 Pantin, France"))
                 .andExpect(jsonPath("$[0].adresseId").value("ChIJTe56hgBt5kcRMtLb4bh_mLE"));
     }
+
+    @Test
+    public void peut_faire_une_recherche_detail_adresse() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/adresse/ChIJTe56hgBt5kcRMtLb4bh_mLE")
+                        .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.city").value("Pantin"));
+    }
 }

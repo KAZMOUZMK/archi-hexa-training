@@ -1,6 +1,7 @@
 package com.enslipchaussettes.api.domain.adresse;
 
 import com.enslipchaussettes.api.controllers.RechercheAdresseResponse;
+import com.enslipchaussettes.api.controllers.RechercheDetailAdresseResponse;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Array;
@@ -22,5 +23,18 @@ public class AdressePortDoit {
         var adresseReponse = port.chercherAdresse(adresse);
         verify(repo).rechercheAdresse(adresse);
         assertEquals(expected, adresseReponse);
+    }
+    @Test
+    public void doit_utiliser_le_repository_pour_chercher_detail_adresse() {
+        AdresseRepository repo = mock(AdresseRepository.class);
+
+        AdressePort port = new AdressePort(repo);
+        String placeID = "placeId";
+        var expected = new RechercheDetailAdresseResponse("street", "12345", "city", "france");
+
+        when(repo.recupererDetail("placeId")).thenReturn(expected);
+        var adresseDetailReponse = port.recupererDetail(placeID);
+        verify(repo).recupererDetail("placeId");
+        assertEquals(expected, adresseDetailReponse);
     }
 }
